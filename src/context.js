@@ -5,7 +5,6 @@ import reducer from "./reducer";
 const AppContext = React.createContext();
 
 const initialState = {
-  selectOptions: ExpensesOptions,
   loading: false,
   income: [],
   expenses: [],
@@ -19,7 +18,31 @@ const initialState = {
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  return <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>;
+  const incomeData = (incomeText, incomeAmount) => {
+    const newId = new Date().getTime().toString();
+    const newIncome = {
+      id: newId,
+      description: incomeText,
+      amount: parseFloat(incomeAmount),
+    };
+    dispatch({ type: "ADD_INCOME", payload: newIncome });
+  };
+
+  const expenseData = (expenseText, expenseAmount) => {
+    const newId = new Date().getTime().toString();
+    const newExpense = {
+      id: newId,
+      description: expenseText,
+      amount: parseFloat(expenseAmount),
+    };
+    dispatch({ type: "ADD_EXPENSE", payload: newExpense });
+  };
+
+  useEffect(() => {
+    dispatch({ type: "GET_TOTALS" });
+  }, [state.income, state.expenses]);
+
+  return <AppContext.Provider value={{ ...state, incomeData, expenseData }}>{children}</AppContext.Provider>;
 };
 
 export const useGlobalContext = () => {
