@@ -13,9 +13,8 @@ import { useGlobalContext } from "../context";
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 275,
-    // maxWidth: 1050,
     marginBottom: 15,
+    padding: 15,
   },
   bullet: {
     display: "inline-block",
@@ -32,7 +31,7 @@ const useStyles = makeStyles({
 
 const Expense = () => {
   const classes = useStyles();
-  const { expenseData, expenses } = useGlobalContext();
+  const { expenseData, expenses, removeExpense } = useGlobalContext();
   const [expenseDesc, setExpenseDesc] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
 
@@ -43,10 +42,10 @@ const Expense = () => {
   };
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={2}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography>Expense</Typography>
+          <Typography variant="h5">Expense</Typography>
         </Grid>
       </Grid>
       {/* row */}
@@ -69,6 +68,7 @@ const Expense = () => {
               label="Amount"
               variant="outlined"
               value={expenseAmount}
+              type="number"
               onChange={(e) => setExpenseAmount(e.target.value)}
             ></TextField>
           </Grid>
@@ -90,7 +90,7 @@ const Expense = () => {
               <Typography>{amount}$</Typography>
             </Grid>
             <Grid item xs={2} sm={1}>
-              <IconButton color="primary" aria-label="delete expense" component="span">
+              <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeExpense(id)}>
                 <DeleteForeverIcon color="secondary" />
               </IconButton>
             </Grid>

@@ -7,9 +7,8 @@ import { useGlobalContext } from "../context";
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 275,
-    // maxWidth: 1050,
-    marginBottom: 15,
+    marginBottom: 35,
+    padding: 15,
   },
   bullet: {
     display: "inline-block",
@@ -17,7 +16,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 14,
+    fontSize: 25,
   },
   pos: {
     marginBottom: 12,
@@ -28,10 +27,10 @@ const Savings = () => {
   const classes = useStyles();
   const { savingsYTD, currentSavings, cashflowValue } = useGlobalContext();
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={3}>
       <Grid container spacing={2} direction="row" justify="center" alignItems="center">
         <Grid item xs={3}>
-          <Typography>Savings</Typography>
+          <Typography variant="h4">Savings</Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography>YTD</Typography>
@@ -44,16 +43,16 @@ const Savings = () => {
         </Grid>
         {/* row */}
         <Grid item xs={3}>
-          <Typography>Total Savings</Typography>
+          <Typography variant="subtitle1">Total Savings</Typography>
         </Grid>
         <Grid item xs={3}>
           <Typography>{savingsYTD}$</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Typography>{currentSavings}$</Typography>
+          <Typography>{cashflowValue}$</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Typography>{cashflowValue}$</Typography>
+          <Typography className={classes.title}>{currentSavings}$</Typography>
         </Grid>
       </Grid>
     </Paper>

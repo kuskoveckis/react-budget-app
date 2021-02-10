@@ -4,20 +4,21 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { useGlobalContext } from "../context";
+import { SportsRugbySharp } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 275,
-    // maxWidth: 1050,
-    marginBottom: 15,
+    marginBottom: 35,
+    padding: 15,
   },
   bullet: {
     display: "inline-block",
     margin: "0 2px",
     transform: "scale(0.8)",
   },
-  title: {
-    fontSize: 14,
+  title: {},
+  total: {
+    fontSize: 20,
   },
   pos: {
     marginBottom: 12,
@@ -28,11 +29,13 @@ const Cashflow = () => {
   const classes = useStyles();
   const { totalIncome, totalExpenses, cashflowValue } = useGlobalContext();
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={3}>
       <Grid container spacing={2}>
         {/* row */}
         <Grid item xs={3}>
-          <Typography>Cash Flow</Typography>
+          <Typography variant="h4" color="primary">
+            Cash Flow
+          </Typography>
         </Grid>
         <Grid item xs={6}></Grid>
         <Grid item xs={3}>
@@ -60,7 +63,7 @@ const Cashflow = () => {
         </Grid>
         <Grid item xs={6}></Grid>
         <Grid item xs={3}>
-          <Typography>{cashflowValue}$</Typography>
+          <Typography className={classes.total}>{cashflowValue}$</Typography>
         </Grid>
       </Grid>
     </Paper>

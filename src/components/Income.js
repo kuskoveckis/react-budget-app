@@ -14,9 +14,8 @@ import IncomeEntry from "./IncomeEntry";
 
 const useStyles = makeStyles({
   root: {
-    // minWidth: 275,
-    // maxWidth: 1050,
-    marginBottom: 15,
+    marginBottom: 25,
+    padding: 15,
   },
   bullet: {
     display: "inline-block",
@@ -24,7 +23,7 @@ const useStyles = makeStyles({
     transform: "scale(0.8)",
   },
   title: {
-    fontSize: 14,
+    fontSize: 10,
   },
   pos: {
     marginBottom: 12,
@@ -32,7 +31,7 @@ const useStyles = makeStyles({
 });
 
 const Income = () => {
-  const { incomeData, income } = useGlobalContext();
+  const { incomeData, income, removeIncome } = useGlobalContext();
   const [textValue, setTextValue] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
 
@@ -45,10 +44,10 @@ const Income = () => {
   };
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={2}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography>Income</Typography>
+          <Typography variant="h5">Income</Typography>
         </Grid>
       </Grid>
       {/* row */}
@@ -71,6 +70,7 @@ const Income = () => {
               label="Amount"
               variant="outlined"
               value={incomeAmount}
+              type="number"
               onChange={(e) => setIncomeAmount(e.target.value)}
             ></TextField>
           </Grid>
@@ -93,7 +93,7 @@ const Income = () => {
               <Typography>{amount}$</Typography>
             </Grid>
             <Grid item xs={2} sm={1}>
-              <IconButton color="primary" aria-label="delete expense" component="span">
+              <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeIncome(id)}>
                 <DeleteForeverIcon color="secondary" />
               </IconButton>
             </Grid>

@@ -25,6 +25,7 @@ const AppProvider = ({ children }) => {
       description: incomeText,
       amount: parseFloat(incomeAmount),
     };
+    newIncome.amount = parseFloat(newIncome.amount.toFixed(2));
     dispatch({ type: "ADD_INCOME", payload: newIncome });
   };
 
@@ -35,14 +36,31 @@ const AppProvider = ({ children }) => {
       description: expenseText,
       amount: parseFloat(expenseAmount),
     };
+    newExpense.amount = parseFloat(newExpense.amount.toFixed(2));
     dispatch({ type: "ADD_EXPENSE", payload: newExpense });
+  };
+
+  const removeIncome = (id) => {
+    dispatch({ type: "REMOVE_INCOME", payload: id });
+  };
+
+  const removeExpense = (id) => {
+    dispatch({ type: "REMOVE_EXPENSE", payload: id });
   };
 
   useEffect(() => {
     dispatch({ type: "GET_TOTALS" });
   }, [state.income, state.expenses]);
 
-  return <AppContext.Provider value={{ ...state, incomeData, expenseData }}>{children}</AppContext.Provider>;
+  useEffect(() => {
+    dispatch({ type: "CASHFLOW_TOTAL" });
+  }, [state.totalIncome, state.totalExpenses]);
+
+  useEffect(() => {
+    dispatch({ type: "CURRENT_SAVINGS" });
+  }, [state.cashflowValue]);
+
+  return <AppContext.Provider value={{ ...state, incomeData, expenseData, removeIncome, removeExpense }}>{children}</AppContext.Provider>;
 };
 
 export const useGlobalContext = () => {
