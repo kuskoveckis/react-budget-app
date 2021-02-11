@@ -10,7 +10,6 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import { useGlobalContext } from "../context";
 import { SettingsOverscanOutlined } from "@material-ui/icons";
-import IncomeEntry from "./IncomeEntry";
 
 const useStyles = makeStyles({
   root: {
@@ -28,10 +27,16 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  red: {
+    color: "red",
+  },
+  black: {
+    color: "black",
+  },
 });
 
 const Income = () => {
-  const { incomeData, income, removeIncome } = useGlobalContext();
+  const { incomeData, income, removeIncome, alert } = useGlobalContext();
   const [textValue, setTextValue] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
 
@@ -57,7 +62,7 @@ const Income = () => {
             <TextField
               fullWidth
               id="outlined-basic"
-              label="Description"
+              label={alert.show && alert.type === "income_text" ? alert.msg : "Description"}
               variant="outlined"
               value={textValue}
               onChange={(e) => setTextValue(e.target.value)}
@@ -67,7 +72,7 @@ const Income = () => {
             <TextField
               fullWidth
               id="outlined-basic"
-              label="Amount"
+              label={alert.show && alert.type === "income_amount" ? alert.msg : "Amount"}
               variant="outlined"
               value={incomeAmount}
               type="number"
@@ -81,7 +86,6 @@ const Income = () => {
           </Grid>
         </Grid>
       </form>
-      {/* {income.length ? <IncomeEntry /> : <></>} */}
       {income.map((entry) => {
         const { id, description, amount } = entry;
         return (

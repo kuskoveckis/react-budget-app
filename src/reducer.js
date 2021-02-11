@@ -1,9 +1,12 @@
 const reducer = (state, action) => {
+  if (action.type === "INPUT_ALERT") {
+    return { ...state, alert: action.payload };
+  }
   if (action.type === "ADD_INCOME") {
-    return { ...state, income: [...state.income, action.payload] };
+    return { ...state, income: [...state.income, action.payload[0]], alert: action.payload[1] };
   }
   if (action.type === "ADD_EXPENSE") {
-    return { ...state, expenses: [...state.expenses, action.payload] };
+    return { ...state, expenses: [...state.expenses, action.payload[0]], alert: action.payload[1] };
   }
   if (action.type === "GET_TOTALS") {
     // Total Income

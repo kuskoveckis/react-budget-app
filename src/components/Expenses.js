@@ -31,7 +31,7 @@ const useStyles = makeStyles({
 
 const Expense = () => {
   const classes = useStyles();
-  const { expenseData, expenses, removeExpense } = useGlobalContext();
+  const { expenseData, expenses, removeExpense, alert } = useGlobalContext();
   const [expenseDesc, setExpenseDesc] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
 
@@ -55,7 +55,7 @@ const Expense = () => {
             <TextField
               fullWidth
               id="outlined-basic"
-              label="Description"
+              label={alert.show && alert.type === "expense_text" ? alert.msg : "Description"}
               variant="outlined"
               value={expenseDesc}
               onChange={(e) => setExpenseDesc(e.target.value)}
@@ -65,7 +65,7 @@ const Expense = () => {
             <TextField
               fullWidth
               id="outlined-basic"
-              label="Amount"
+              label={alert.show && alert.type === "expense_amount" ? alert.msg : "Amount"}
               variant="outlined"
               value={expenseAmount}
               type="number"
