@@ -1,4 +1,4 @@
-import React, { useState, useContext, useReducer, useEffect } from "react";
+import React, { useState, useContext, useReducer, useEffect, useRef } from "react";
 import ExpensesOptions from "./data";
 import reducer from "./reducer";
 
@@ -24,7 +24,6 @@ const getLocalStorageExpenses = () => {
 
 const initialState = {
   alert: { show: false, msg: "", type: "" },
-  loading: false,
   income: getLocalStorageIncome(),
   expenses: getLocalStorageExpenses(),
   savingsYTD: 1000,
@@ -32,6 +31,8 @@ const initialState = {
   totalExpenses: 0,
   currentSavings: 0,
   cashflowValue: 0,
+  edit: false,
+  editId: null,
 };
 
 const AppProvider = ({ children }) => {
@@ -45,6 +46,14 @@ const AppProvider = ({ children }) => {
     } else if (!incomeAmount) {
       const newAlert = { show: true, msg: "Please enter amount", type: "income_amount" };
       dispatch({ type: "INPUT_ALERT", payload: newAlert });
+    } else if (incomeText && incomeAmount && state.edit) {
+      let updatedIncome = state.income.map((item) => {
+        if (item.id === state.editId) {
+          return { ...item, description: incomeText, amount: parseFloat(incomeAmount) };
+        }
+        return item;
+      });
+      dispatch({ type: "EDIT_INCOME", payload: updatedIncome });
     } else {
       const newIncome = {
         id: newId,
@@ -65,6 +74,14 @@ const AppProvider = ({ children }) => {
     } else if (!expenseAmount) {
       const newAlert = { show: true, msg: "Please enter amount", type: "expense_amount" };
       dispatch({ type: "INPUT_ALERT", payload: newAlert });
+    } else if (expenseText && expenseAmount && state.edit) {
+      let updatedExpenses = state.expenses.map((item) => {
+        if (item.id === state.editId) {
+          return { ...item, description: expenseText, amount: parseFloat(expenseAmount) };
+        }
+        return item;
+      });
+      dispatch({ type: "EDIT_EXPENSE", payload: updatedExpenses });
     } else {
       const newExpense = {
         id: newId,
@@ -75,6 +92,10 @@ const AppProvider = ({ children }) => {
       const newAlert = { show: false, msg: "", type: "" };
       dispatch({ type: "ADD_EXPENSE", payload: [newExpense, newAlert] });
     }
+  };
+
+  const editItem = (id) => {
+    dispatch({ type: "EDIT_AND_ID", payload: id });
   };
 
   const removeIncome = (id) => {
@@ -105,7 +126,9 @@ const AppProvider = ({ children }) => {
     localStorage.setItem("budget_expenses", JSON.stringify(state.expenses));
   }, [state.expenses]);
 
-  return <AppContext.Provider value={{ ...state, incomeData, expenseData, removeIncome, removeExpense }}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={{ ...state, state, incomeData, expenseData, removeIncome, removeExpense, editItem }}>{children}</AppContext.Provider>
+  );
 };
 
 export const useGlobalContext = () => {

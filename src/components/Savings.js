@@ -1,5 +1,5 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
@@ -23,14 +23,29 @@ const useStyles = makeStyles({
   },
 });
 
+const theme = createMuiTheme();
+theme.typography.h3 = {
+  fontSize: "1.3rem",
+  "@media (min-width:600px)": {
+    fontSize: "1.9rem",
+  },
+  [theme.breakpoints.up("md")]: {
+    fontSize: "2.5rem",
+  },
+};
+
 const Savings = () => {
   const classes = useStyles();
   const { savingsYTD, currentSavings, cashflowValue } = useGlobalContext();
   return (
-    <Paper className={classes.root} elevation={3}>
+    <Paper className={classes.root} elevation={10}>
       <Grid container spacing={2} direction="row" justify="center" alignItems="center">
         <Grid item xs={3}>
-          <Typography variant="h4">Savings</Typography>
+          <ThemeProvider theme={theme}>
+            <Typography variant="h3" style={{ color: "forestgreen", fontWeight: 700 }}>
+              Savings
+            </Typography>
+          </ThemeProvider>
         </Grid>
         <Grid item xs={3}>
           <Typography>YTD</Typography>
@@ -52,7 +67,13 @@ const Savings = () => {
           <Typography>{cashflowValue}$</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Typography className={classes.title}>{currentSavings}$</Typography>
+          <Typography
+            className={classes.title}
+            fontWeight="fontWeightBold"
+            style={currentSavings >= savingsYTD ? { color: "forestgreen", fontWeight: 800 } : { color: "red" }}
+          >
+            {currentSavings}$
+          </Typography>
         </Grid>
       </Grid>
     </Paper>

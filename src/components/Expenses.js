@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -9,6 +9,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalContext } from "../context";
 
 const useStyles = makeStyles({
@@ -27,13 +28,17 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  margin: {
+    marginBottom: 32,
+  },
 });
 
 const Expense = () => {
   const classes = useStyles();
-  const { expenseData, expenses, removeExpense, alert } = useGlobalContext();
+  const { expenseData, expenses, removeExpense, alert, editItem, edit, editId, refTextE, refAmountE } = useGlobalContext();
   const [expenseDesc, setExpenseDesc] = useState("");
   const [expenseAmount, setExpenseAmount] = useState("");
+  const [outlined, setOutlined] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,8 +46,22 @@ const Expense = () => {
     setExpenseAmount("");
   };
 
+  const editTextAreas = async (id) => {
+    const expenseToEdit = await expenses.find((expense) => expense.id === id);
+    setExpenseDesc(expenseToEdit.description);
+    setExpenseAmount(expenseToEdit.amount);
+    editItem(id);
+  };
+
   return (
-    <Paper className={classes.root} elevation={2}>
+    <Paper
+      className={classes.root}
+      elevation={2}
+      variant={outlined ? "outlined" : "elevation"}
+      elevation={4}
+      onMouseOver={() => setOutlined(false)}
+      onMouseLeave={() => setOutlined(true)}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5">Expense</Typography>
@@ -50,7 +69,7 @@ const Expense = () => {
       </Grid>
       {/* row */}
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1} direction="row" justify="flex-start">
+        <Grid container spacing={1} direction="row" justify="flex-start" className={classes.root}>
           <Grid item xs={12} sm={7}>
             <TextField
               fullWidth
@@ -83,7 +102,12 @@ const Expense = () => {
         const { id, description, amount } = entry;
         return (
           <Grid container spacing={2} key={id}>
-            <Grid item xs={7} sm={7}>
+            <Grid item xs={2} sm={1}>
+              <IconButton aria-label="edit expense" component="span" onClick={() => editTextAreas(id)}>
+                <EditIcon color="primary" />
+              </IconButton>
+            </Grid>
+            <Grid item xs={7} sm={6}>
               <Typography>{description}</Typography>
             </Grid>
             <Grid item xs={3} sm={4}>

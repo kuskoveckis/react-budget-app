@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -8,8 +8,8 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditIcon from "@material-ui/icons/Edit";
 import { useGlobalContext } from "../context";
-import { SettingsOverscanOutlined } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   root: {
@@ -27,18 +27,16 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
-  red: {
-    color: "red",
-  },
-  black: {
-    color: "black",
+  margin: {
+    marginBottom: 32,
   },
 });
 
 const Income = () => {
-  const { incomeData, income, removeIncome, alert } = useGlobalContext();
+  const { incomeData, income, removeIncome, alert, editItem, edit, editId, refText, refAmount } = useGlobalContext();
   const [textValue, setTextValue] = useState("");
   const [incomeAmount, setIncomeAmount] = useState("");
+  const [outlined, setOutlined] = useState(true);
 
   const classes = useStyles();
 
@@ -48,8 +46,21 @@ const Income = () => {
     setIncomeAmount("");
   };
 
+  const editTextAreas = async (id) => {
+    const incomeToEdit = await income.find((income) => income.id === id);
+    setTextValue(incomeToEdit.description);
+    setIncomeAmount(incomeToEdit.amount);
+    editItem(id);
+  };
+
   return (
-    <Paper className={classes.root} elevation={2}>
+    <Paper
+      className={classes.root}
+      variant={outlined ? "outlined" : "elevation"}
+      elevation={4}
+      onMouseOver={() => setOutlined(false)}
+      onMouseLeave={() => setOutlined(true)}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography variant="h5">Income</Typography>
@@ -57,7 +68,7 @@ const Income = () => {
       </Grid>
       {/* row */}
       <form onSubmit={handleSubmit}>
-        <Grid container spacing={1} direction="row" justify="flex-start">
+        <Grid container spacing={1} direction="row" className={classes.margin}>
           <Grid item xs={12} sm={7}>
             <TextField
               fullWidth
@@ -90,14 +101,19 @@ const Income = () => {
         const { id, description, amount } = entry;
         return (
           <Grid container spacing={2} key={id}>
-            <Grid item xs={7} sm={7}>
+            <Grid item xs={2} sm={1}>
+              <IconButton aria-label="edit income" component="span" onClick={() => editTextAreas(id)}>
+                <EditIcon color="primary" />
+              </IconButton>
+            </Grid>
+            <Grid item xs={7} sm={6}>
               <Typography>{description}</Typography>
             </Grid>
             <Grid item xs={3} sm={4}>
               <Typography>{amount}$</Typography>
             </Grid>
             <Grid item xs={2} sm={1}>
-              <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeIncome(id)}>
+              <IconButton aria-label="delete income" component="span" onClick={() => removeIncome(id)}>
                 <DeleteForeverIcon color="secondary" />
               </IconButton>
             </Grid>

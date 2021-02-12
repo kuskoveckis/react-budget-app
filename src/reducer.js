@@ -18,7 +18,7 @@ const reducer = (state, action) => {
       },
       { total: 0 }
     );
-    newIncomeTotal.total = parseFloat(newIncomeTotal.total.toFixed(2));
+    //newIncomeTotal.total = parseFloat(newIncomeTotal.total.toFixed(2));
 
     // Total Expense
     const newExpensesTotal = state.expenses.reduce(
@@ -33,6 +33,18 @@ const reducer = (state, action) => {
 
     return { ...state, totalIncome: newIncomeTotal.total, totalExpenses: newExpensesTotal.total };
   }
+
+  if (action.type === "EDIT_AND_ID") {
+    return { ...state, edit: true, editId: action.payload };
+  }
+  if (action.type === "EDIT_INCOME") {
+    return { ...state, income: action.payload, editId: null, edit: false };
+  }
+
+  if (action.type === "EDIT_EXPENSE") {
+    return { ...state, expenses: action.payload, editId: null, edit: false };
+  }
+
   if (action.type === "REMOVE_INCOME") {
     const updatedIncome = state.income.filter((income) => income.id !== action.payload);
     return { ...state, income: updatedIncome };
