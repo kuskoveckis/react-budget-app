@@ -10,11 +10,6 @@ const useStyles = makeStyles({
     marginBottom: 35,
     padding: 15,
   },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
   title: {
     fontSize: 25,
   },
@@ -31,6 +26,16 @@ theme.typography.h3 = {
   },
   [theme.breakpoints.up("md")]: {
     fontSize: "2.5rem",
+  },
+};
+
+theme.typography.h6 = {
+  fontSize: "1rem",
+  "@media (min-width:600px)": {
+    fontSize: "1.9rem",
+  },
+  [theme.breakpoints.up("sm")]: {
+    fontSize: "1.9rem",
   },
 };
 
@@ -67,13 +72,16 @@ const Savings = () => {
           <Typography>{cashflowValue}$</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Typography
-            className={classes.title}
-            fontWeight="fontWeightBold"
-            style={currentSavings >= savingsYTD ? { color: "forestgreen", fontWeight: 800 } : { color: "red" }}
-          >
-            {currentSavings}$
-          </Typography>
+          <ThemeProvider theme={theme}>
+            <Typography
+              // className={classes.title}
+              variant="h6"
+              fontWeight="fontWeightBold"
+              style={currentSavings >= savingsYTD ? { color: "forestgreen", fontWeight: 800 } : { color: "red" }}
+            >
+              {currentSavings}$
+            </Typography>
+          </ThemeProvider>
         </Grid>
       </Grid>
     </Paper>

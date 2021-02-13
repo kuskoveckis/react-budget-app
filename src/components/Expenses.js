@@ -4,7 +4,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
@@ -16,11 +15,6 @@ const useStyles = makeStyles({
   root: {
     marginBottom: 15,
     padding: 15,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
   },
   title: {
     fontSize: 14,
@@ -152,8 +146,8 @@ const Expense = () => {
                   <EditIcon color="primary" />
                 </IconButton>
               </Grid>
-              <Grid item xs={7} sm={6}>
-                <Typography>{description}</Typography>
+              <Grid item xs={4} sm={6}>
+                <Typography noWrap>{description}</Typography>
               </Grid>
               <Grid item xs={3} sm={4}>
                 <Typography>{amount}$</Typography>

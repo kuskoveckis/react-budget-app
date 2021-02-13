@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import { useGlobalContext } from "../context";
-import { SportsRugbySharp } from "@material-ui/icons";
 import { createMuiTheme, makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
@@ -11,12 +10,6 @@ const useStyles = makeStyles({
     marginBottom: 35,
     padding: 15,
   },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {},
   total: {
     fontSize: 20,
   },

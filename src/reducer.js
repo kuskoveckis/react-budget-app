@@ -60,7 +60,7 @@ const reducer = (state, action) => {
   }
   if (action.type === "CURRENT_SAVINGS") {
     let monthlySavings = state.savingsYTD + state.cashflowValue;
-    //monthlySavings = parseFloat(monthlySavings.toFixed(2));
+    monthlySavings = parseFloat(monthlySavings.toFixed(2));
     return { ...state, currentSavings: monthlySavings };
   }
 

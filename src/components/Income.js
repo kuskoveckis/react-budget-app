@@ -16,11 +16,6 @@ const useStyles = makeStyles({
     marginBottom: 25,
     padding: 15,
   },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
   title: {
     fontSize: 10,
   },
@@ -151,8 +146,8 @@ const Income = () => {
                   <EditIcon color="primary" />
                 </IconButton>
               </Grid>
-              <Grid item xs={7} sm={6}>
-                <Typography>{description}</Typography>
+              <Grid item xs={4} sm={6}>
+                <Typography noWrap>{description}</Typography>
               </Grid>
               <Grid item xs={3} sm={4}>
                 <Typography>{amount}$</Typography>

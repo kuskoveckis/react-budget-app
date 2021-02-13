@@ -32,6 +32,14 @@ body {
   -o-transform: translateY(-20%) rotate(-3deg);
 }
 
+.App {
+  background-color: #fefefe;
+}
+
+.margin {
+  margin-bottom: 400px;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

@@ -1,5 +1,4 @@
-import React, { useState, useContext, useReducer, useEffect, useRef } from "react";
-import ExpensesOptions from "./data";
+import React, { useContext, useReducer, useEffect } from "react";
 import reducer from "./reducer";
 
 const AppContext = React.createContext();
