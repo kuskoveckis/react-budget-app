@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import EditIcon from "@material-ui/icons/Edit";
+import CheckCircleOutlineIcon from "@material-ui/icons/CheckCircleOutline";
 import { useGlobalContext } from "../context";
 
 const useStyles = makeStyles({
@@ -87,7 +88,7 @@ const Income = () => {
           </Grid>
           <Grid item xs={12} sm={1}>
             <Button type="submit" onClick={() => incomeData(textValue, incomeAmount)}>
-              <AddCircleOutlineIcon color="primary" />
+              {edit ? <CheckCircleOutlineIcon style={{ color: "green" }} /> : <AddCircleOutlineIcon color="primary" />}
             </Button>
           </Grid>
         </Grid>
