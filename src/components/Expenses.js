@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
@@ -100,26 +100,72 @@ const Expense = () => {
       </form>
       {expenses.map((entry) => {
         const { id, description, amount } = entry;
-        return (
-          <Grid container spacing={2} key={id}>
-            <Grid item xs={2} sm={1}>
-              <IconButton aria-label="edit expense" component="span" onClick={() => editTextAreas(id)}>
-                <EditIcon color="primary" />
-              </IconButton>
+        if (edit) {
+          if (editId === id) {
+            return (
+              <Grid container spacing={2} key={id}>
+                <Grid item xs={2} sm={1}>
+                  <IconButton aria-label="edit expense" component="span" onClick={() => editTextAreas(id)}>
+                    <EditIcon color="primary" />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={7} sm={6}>
+                  <Typography style={{ color: "red" }}>{description}</Typography>
+                </Grid>
+                <Grid item xs={3} sm={4}>
+                  <Typography style={{ color: "red" }}>{amount}$</Typography>
+                </Grid>
+                <Grid item xs={2} sm={1}>
+                  <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeExpense(id)}>
+                    <DeleteForeverIcon color="secondary" />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            );
+          } else {
+            return (
+              <Grid container spacing={2} key={id}>
+                <Grid item xs={2} sm={1}>
+                  <IconButton aria-label="edit expense" component="span" onClick={() => editTextAreas(id)}>
+                    <EditIcon color="primary" />
+                  </IconButton>
+                </Grid>
+                <Grid item xs={7} sm={6}>
+                  <Typography>{description}</Typography>
+                </Grid>
+                <Grid item xs={3} sm={4}>
+                  <Typography>{amount}$</Typography>
+                </Grid>
+                <Grid item xs={2} sm={1}>
+                  <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeExpense(id)}>
+                    <DeleteForeverIcon color="secondary" />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            );
+          }
+        } else {
+          return (
+            <Grid container spacing={2} key={id}>
+              <Grid item xs={2} sm={1}>
+                <IconButton aria-label="edit expense" component="span" onClick={() => editTextAreas(id)}>
+                  <EditIcon color="primary" />
+                </IconButton>
+              </Grid>
+              <Grid item xs={7} sm={6}>
+                <Typography>{description}</Typography>
+              </Grid>
+              <Grid item xs={3} sm={4}>
+                <Typography>{amount}$</Typography>
+              </Grid>
+              <Grid item xs={2} sm={1}>
+                <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeExpense(id)}>
+                  <DeleteForeverIcon color="secondary" />
+                </IconButton>
+              </Grid>
             </Grid>
-            <Grid item xs={7} sm={6}>
-              <Typography>{description}</Typography>
-            </Grid>
-            <Grid item xs={3} sm={4}>
-              <Typography>{amount}$</Typography>
-            </Grid>
-            <Grid item xs={2} sm={1}>
-              <IconButton color="primary" aria-label="delete expense" component="span" onClick={() => removeExpense(id)}>
-                <DeleteForeverIcon color="secondary" />
-              </IconButton>
-            </Grid>
-          </Grid>
-        );
+          );
+        }
       })}
     </Paper>
   );
