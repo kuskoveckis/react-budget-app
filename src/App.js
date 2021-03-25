@@ -14,7 +14,7 @@ function App() {
   const month = date.getMonth();
   const year = date.getFullYear();
   return (
-    <Box className="App">
+    <Box className="App" style={{ backgroundImage: "linear-gradient(-20deg, #e9defa 0%, #fbfcdb 100%)" }}>
       <Container maxWidth="md" className="margin">
         <Typography style={{ fontSize: "3.5rem", fontWeight: 600, textAlign: "center" }} className="test">
           EASY BUDGET
